@@ -3,8 +3,12 @@ import { ref } from 'vue'
 import { RouterView } from 'vue-router'
 import { lightTheme } from 'naive-ui'
 import type { GlobalTheme } from 'naive-ui'
+import router from './router/'
+import { RoutesNames } from '@/constants/RoutesNames'
 
 const theme = ref<GlobalTheme>(lightTheme)
+router.push(RoutesNames.itemsList)
+
 </script>
 
 <template>
@@ -13,5 +17,10 @@ const theme = ref<GlobalTheme>(lightTheme)
   </n-config-provider>
 </template> 
 
-<style scoped>
+<style>
+@import './assets/main.css';
+
+div#app {
+  padding: 12px;
+}
 </style>
