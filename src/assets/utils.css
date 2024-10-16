@@ -4,3 +4,9 @@
 .mb-2 {
   margin-bottom: 6px;
 }
+
+.d-flex {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
