@@ -11,6 +11,21 @@ const theme = ref<GlobalTheme>(lightTheme)
 router.push(RoutesNames.itemsList)
 
 const initData = window.Telegram.WebApp.initDataUnsafe
+// const initData = {
+//     "query_id": "AAEXbVAJAAAAABdtUAlvqn_h",
+//     "user": {
+//         "id": 156265751,
+//         "first_name": "Vadim",
+//         "last_name": "Kenedi",
+//         "username": "lionkenedi",
+//         "language_code": "ru",
+//         "allows_write_to_pm": true
+//     },
+//     "auth_date": "1729439830",
+//     "hash": "0aec2944e6c7234c43a1d87231efae1c4b28449178643a5feaececd112f0a3ce"
+// }
+
+console.log('initData', initData)
 
 // try {
 //   initData = JSON.parse(get(window, 'Telegram.WebApp.initData'))

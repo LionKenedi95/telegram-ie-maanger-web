@@ -3,10 +3,10 @@ import axios from "axios"
 
 export const userApi = {
   create: async (params: CreateUserDTO) => {
-    const result = await axios.get('http://localhost:3000/users/create', {
+    const result = await axios.post('http://localhost:3000/users/create', {
       params,
     })
 
-    console.log(result)
+    return result.data
   }
 }
