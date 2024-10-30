@@ -63,7 +63,7 @@ const serviceDescriptionRef = ref<HTMLElement>()
 
         <div>Telegram менеджер записи клиентов</div>
 
-        <n-button type="primary" round @click="setNextStep()">Начать</n-button>
+        <n-button type="primary" size="large" round @click="setNextStep()">Начать</n-button>
       </div>
 
       <div v-else-if="step === Steps.mainInfo" class="step">

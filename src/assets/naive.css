@@ -1,5 +1,5 @@
 .n-card > .n-card__footer {
-  color: var(--tg-theme-hint-color);
+  color: var(--tg-theme-subtitle-text-color);
 }
 
 .n-card > .n-card__action {
