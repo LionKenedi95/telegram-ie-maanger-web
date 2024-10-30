@@ -15,6 +15,13 @@ const isShowLoading = ref(true)
 const theme = ref(window.Telegram.WebApp.colorScheme === 'light' ? lightTheme : darkTheme)
 const telegramTheme = useTelegramTheme(window.Telegram.WebApp)
 
+try {
+  window.Telegram.WebApp.disableVerticalSwipes()
+  window.Telegram.WebApp.expand()
+} catch (e) {
+  console.error('Cant expand app', e)
+}
+
 const initData = window.Telegram.WebApp.initDataUnsafe
 
 console.log('initData', initData)

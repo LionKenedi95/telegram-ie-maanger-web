@@ -26,6 +26,11 @@ const placeholders = {
   serviceDescription: 'например "Встреча 1 на 1 чтобы понять в чем проблема"'
 }
 
+const focusServiceDescription = () => {
+  serviceDescriptionRef.value?.focus()
+}
+const serviceDescriptionRef = ref<HTMLElement>()
+
 </script>
 
 <template>
@@ -51,6 +56,7 @@ const placeholders = {
         v-model:value="form.name"
         type="text"
         placeholder="Название компании"
+        autofocus
         @change="step = Steps.serviceInfo"
       />
 
@@ -67,12 +73,15 @@ const placeholders = {
       <n-input
         v-model:value="form.serviceName"
         type="text"
+        autofocus
         :placeholder="placeholders.service"
+        @change="focusServiceDescription"
       />
 
       <div>Добавь краткое описание, если надо</div>
 
       <n-input
+        ref="serviceDescriptionRef"
         v-model:value="form.serviceDescription"
         type="textarea"
         :placeholder="placeholders.serviceDescription"
