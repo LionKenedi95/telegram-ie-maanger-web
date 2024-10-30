@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { RouterView } from 'vue-router'
-import { lightTheme } from 'naive-ui'
+import { lightTheme, NButton, NDivider, NCard, NInput } from 'naive-ui'
 import type { GlobalTheme } from 'naive-ui'
 import router from './router/'
 import { RoutesNames } from '@/constants/RoutesNames'
