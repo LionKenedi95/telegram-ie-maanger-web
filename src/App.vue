@@ -51,9 +51,35 @@ const createUser = () => {
 
 createUser()
 
+const value = ref('')
+
 </script>
 
 <template>
+  <n-button round>base</n-button>
+  <n-button round type="primary">primary</n-button>
+  <n-button round type="info">info</n-button>
+  <n-button round type="success">success</n-button>
+  <n-button round type="warning">warning</n-button> 
+  <n-button round type="error">error</n-button>
+  <hr>
+  <n-button loading round>base</n-button>
+  <n-button loading round type="primary">primary</n-button>
+  <hr>
+  <n-card title="Card">
+    Card Content
+  </n-card>
+  <hr>
+  Oops
+  <n-divider />
+  Oops
+  <n-divider />
+  <n-input v-model:value="value" type="text" placeholder="Basic Input" />
+  <n-input
+    v-model:value="value"
+    type="textarea"
+    placeholder="Basic Textarea"
+  />
   <n-config-provider :theme="theme">
     <RouterView />
   </n-config-provider>
