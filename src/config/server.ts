@@ -1,6 +1,6 @@
 const ServerConfig = Object.freeze({
-  protocol: 'http://',
-  host: '79.174.84.106'
+  protocol: 'https://',
+  host: 'telegrammanagerbot.site/api/'
 })
 
 export const getAddress = (endpoint: string) => `${ServerConfig.protocol}${ServerConfig.host}/${endpoint}`
