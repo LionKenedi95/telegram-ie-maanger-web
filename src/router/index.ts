@@ -20,6 +20,10 @@ const router = createRouter({
           name: RoutesNames.createManagerProfile,
           component: CreateManagerProfile,
         }, {
+          path: 'settings',
+          name: RoutesNames.businessSettings,
+          component: () => import('@/components/BusinessSettings.vue'),
+        }, {
           path: 'service/:id',
           component: () => import('@/views/ServiceSettings.vue'),
           children: [{
@@ -31,15 +35,7 @@ const router = createRouter({
             name: RoutesNames.timeSlotsSettings,
             component: () => import('@/components/TimeSlotsSettingsForm.vue'),
           }]
-        }, {
-          path: 'service/:id',
-          name: RoutesNames.serviceSettings,
-          component: () => ''
         }]
-      },{
-        path: '/appointment-form/:serviceId',
-        name: RoutesNames.appointment,
-        component: () => import('@/components/AppointmentForm.vue'),
       }]
     },
   ]

@@ -3,23 +3,7 @@ import { defineStore } from 'pinia'
 import { businessesApi } from '@/api/businesses'
 import { servicesApi } from '@/api/services'
 import type { UpdateBusinessDTO } from '@/interfaces/DTO/Businesses/UpdateBusiness'
-
-interface IService {
-  id: number
-  businessID: number
-  title: string
-  description: string
-}
-
-interface IBussiness {
-  id: number
-  telegramID: number
-  username: string
-  firstName: string
-  lastName: string
-  companyName: string
-  services: IService[]
-}
+import type { IBusiness } from '@/interfaces/DTO/Businesses/Business'
 
 interface ICreateServiceFields {
   title?: string
@@ -27,9 +11,9 @@ interface ICreateServiceFields {
 }
 
 export const useBusinessStore = defineStore('bussiness', () => {
-  const bussiness = ref<IBussiness | null>(null)
+  const bussiness = ref<IBusiness | null>(null)
 
-  const setBussiness = (bussinessData: IBussiness) => {
+  const setBussiness = (bussinessData: IBusiness) => {
     bussiness.value = bussinessData
   }
   

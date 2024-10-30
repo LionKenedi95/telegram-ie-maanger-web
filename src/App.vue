@@ -35,12 +35,25 @@ const startBusinessFlow = () => {
     lastName: initData?.user?.last_name || 'Тест',
   })
     .then((result) => {
-      if (result) {
-        businessStore.setBussiness(result)
-        router.push({
-          name: RoutesNames.createManagerProfile,
-        })
+      if (!result) {
+        return
       }
+
+      businessStore.setBussiness(result)
+
+      if (result.companyName && result.services.length) {
+          router.push({
+            name: RoutesNames.businessSettings,
+            params: {
+              id: result.id,
+            }
+          })
+        return
+      }
+
+      router.push({
+        name: RoutesNames.createManagerProfile,
+      })
     })
     .finally(() => {
       isShowLoading.value = false

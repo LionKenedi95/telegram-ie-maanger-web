@@ -1,6 +1,7 @@
 export enum RoutesNames {
   business = 'business',
-  createManagerProfile = 'create-manager-profile',
+  createManagerProfile = 'createManagerProfile',
+  businessSettings = 'businessSettings',
   serviceSettings = 'serviceSettings',
   timeSlotsSettings = 'timeSlotsSettings',
 
