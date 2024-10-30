@@ -3,4 +3,4 @@ const ServerConfig = Object.freeze({
   host: 'telegrammanagerbot.site/api/'
 })
 
-export const getAddress = (endpoint: string) => `${ServerConfig.protocol}${ServerConfig.host}/${endpoint}`
+export const getAddress = (endpoint: string) => `${ServerConfig.protocol}${ServerConfig.host}${endpoint}`
