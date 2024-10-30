@@ -35,8 +35,6 @@ const startBusinessFlow = () => {
     lastName: initData?.user?.last_name || 'Тест',
   })
     .then((result) => {
-      console.log('bussinessApi.check result', result)
-
       if (result) {
         businessStore.setBussiness(result)
         router.push({

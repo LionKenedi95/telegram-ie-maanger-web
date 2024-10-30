@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
+import { debounce } from 'lodash';
 import { storeToRefs } from 'pinia'
 import { NGradientText, NCard, NInput, NButton, NFormItem } from 'naive-ui'
 import { useBusinessStore } from '@/stores/business';
@@ -15,6 +16,28 @@ enum Steps {
 }
 
 const step = ref(Steps.start)
+
+onMounted(() => {
+  console.log('bussiness.value', bussiness.value)
+  
+  if (bussiness.value?.companyName) {
+    step.value = Steps.serviceInfo
+  }
+})
+
+const setNextStep = debounce(() => {
+  if (step.value === Steps.start) {
+    step.value = Steps.mainInfo
+  } else if (step.value === Steps.mainInfo) {
+    if (form.name) {
+      bussinessStore.updateBusiness({ companyName: form.name })
+    }
+
+    step.value = Steps.serviceInfo
+  } else if (step.value === Steps.serviceInfo) {
+    step.value = Steps.end
+  }
+}, 10)
 
 const form = reactive({
   name: '',
@@ -44,7 +67,7 @@ const serviceDescriptionRef = ref<HTMLElement>()
 
         <div>Telegram менеджер записи клиентов</div>
 
-        <n-button type="primary" round @click="step = Steps.mainInfo">Начать</n-button>
+        <n-button type="primary" round @click="setNextStep()">Начать</n-button>
       </div>
 
       <div v-else-if="step === Steps.mainInfo" class="step">
@@ -59,7 +82,7 @@ const serviceDescriptionRef = ref<HTMLElement>()
             placeholder="Название компании"
             maxlength="256"
             autofocus
-            @change="step = Steps.serviceInfo"
+            @change="setNextStep()"
           />
 
           <template #footer>
@@ -67,7 +90,7 @@ const serviceDescriptionRef = ref<HTMLElement>()
           </template>
 
           <template #action>
-            <n-button type="primary" round @click="step = Steps.serviceInfo">Дальше</n-button>
+            <n-button type="primary" round @click="setNextStep()">Дальше</n-button>
           </template>
         </n-card>
       </div>
@@ -96,7 +119,7 @@ const serviceDescriptionRef = ref<HTMLElement>()
               type="textarea"
               :placeholder="placeholders.serviceDescription"
               maxlength="1024"
-              @change="step = Steps.end"
+              @change="setNextStep()"
             />
           </n-form-item>
 
@@ -105,7 +128,7 @@ const serviceDescriptionRef = ref<HTMLElement>()
           </template>
 
           <template #action>
-            <n-button type="primary" round @click="step = Steps.end">Дальше</n-button>
+            <n-button type="primary" round @click="setNextStep()">Дальше</n-button>
           </template>
         </n-card>
       </div>

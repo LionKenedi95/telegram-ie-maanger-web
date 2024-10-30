@@ -1,5 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import { businessesApi } from '@/api/businesses'
+import type { UpdateBusinessDTO } from '@/interfaces/DTO/Businesses/UpdateBusiness'
 
 interface IBussiness {
   id: number
@@ -7,6 +9,7 @@ interface IBussiness {
   username: string
   firstName: string
   lastName: string
+  companyName: string
 }
 
 export const useBusinessStore = defineStore('bussiness', () => {
@@ -15,6 +18,13 @@ export const useBusinessStore = defineStore('bussiness', () => {
   const setBussiness = (bussinessData: IBussiness) => {
     bussiness.value = bussinessData
   }
+  
+  const updateBusiness = (fields: UpdateBusinessDTO) => {
+    businessesApi.update(bussiness.value?.id, fields)
+      .then((result) => {
+        console.log('updateBusiness result', result)
+      })
+  }
 
-  return { bussiness, setBussiness }
+  return { bussiness, setBussiness, updateBusiness }
 })
