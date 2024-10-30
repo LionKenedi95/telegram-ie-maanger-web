@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { storeToRefs } from 'pinia'
-import { NGradientText, NInput, NButton } from 'naive-ui'
+import { NGradientText, NCard, NInput, NButton, NFormItem } from 'naive-ui'
 import { useBusinessStore } from '@/stores/business';
 
 const bussinessStore = useBusinessStore()
@@ -10,7 +10,8 @@ const { bussiness } = storeToRefs(bussinessStore)
 enum Steps {
   start,
   mainInfo,
-  serviceInfo
+  serviceInfo,
+  end,
 }
 
 const step = ref(Steps.start)
@@ -46,48 +47,66 @@ const serviceDescriptionRef = ref<HTMLElement>()
     </div>
 
     <div v-else-if="step === Steps.mainInfo" class="step">
-      <n-gradient-text :size="24" type="primary">
-        Основная информация
+      <n-gradient-text :size="20" type="primary">
+        Calendee
       </n-gradient-text>
 
-      <div>Укажи название компании, оно будет показано клиенту в заголовке</div>
+      <n-card title="Укажи название компании">
+        <n-input
+          v-model:value="form.name"
+          type="text"
+          placeholder="Название компании"
+          maxlength="256"
+          autofocus
+          @change="step = Steps.serviceInfo"
+        />
 
-      <n-input
-        v-model:value="form.name"
-        type="text"
-        placeholder="Название компании"
-        autofocus
-        @change="step = Steps.serviceInfo"
-      />
+        <template #footer>
+          название будет показано клиенту в заголовке
+        </template>
 
-      <n-button type="primary" round @close="step = Steps.serviceInfo">Дальше</n-button>
+        <template #action>
+          <n-button type="primary" round @click="step = Steps.serviceInfo">Дальше</n-button>
+        </template>
+      </n-card>
     </div>
 
     <div v-else-if="step === Steps.serviceInfo" class="step">
-      <n-gradient-text :size="24" type="primary">
-        Добавление услуги
+      <n-gradient-text :size="20" type="primary">
+        Calendee
       </n-gradient-text>
 
-      <div>Как называется услуга на которую будет записываться клиент?</div>
+      <n-card title="Создадим первую услугу">
+        <n-form-item label="Название услуги">
+          <n-input
+            v-model:value="form.serviceName"
+            type="text"
+            :placeholder="placeholders.service"
+            maxlength="256"
+            autofocus
+            @change="focusServiceDescription"
+          />
+        </n-form-item>
+        
+        <n-form-item label="Описание услуги">
+          <n-input
+            ref="serviceDescriptionRef"
+            v-model:value="form.serviceDescription"
+            type="textarea"
+            :placeholder="placeholders.serviceDescription"
+            maxlength="1024"
+            @change="step = Steps.end"
+          />
+        </n-form-item>
 
-      <n-input
-        v-model:value="form.serviceName"
-        type="text"
-        autofocus
-        :placeholder="placeholders.service"
-        @change="focusServiceDescription"
-      />
+        <template #footer>
+          Более подробно настроить услуги можно будет дальше
+        </template>
 
-      <div>Добавь краткое описание, если надо</div>
-
-      <n-input
-        ref="serviceDescriptionRef"
-        v-model:value="form.serviceDescription"
-        type="textarea"
-        :placeholder="placeholders.serviceDescription"
-      />
-
-      <n-button type="primary" round @close="step = Steps.serviceInfo">Дальше</n-button>
+        <template #action>
+          <n-button type="primary" round @click="step = Steps.end">Дальше</n-button>
+        </template>
+      </n-card>
     </div>
   </div>
 </template>
@@ -98,7 +117,7 @@ const serviceDescriptionRef = ref<HTMLElement>()
   flex-direction: column;
   gap: 24px;
   align-items: center;
-  justify-content: center;
+  padding-top: 10vh;
   height: calc(100vh - 48px);
   width: calc(100vw - 48px);
 }
