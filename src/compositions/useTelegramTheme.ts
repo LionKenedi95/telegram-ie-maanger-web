@@ -84,12 +84,10 @@ const stub: WebApp = {
   }
 }
 
-// export const useTelegramTheme = (telegramWebApp: WebApp = stub): GlobalThemeOverrides => {
-  export const useTelegramTheme = (): GlobalThemeOverrides => {
-  // console.log('telegramWebApp', telegramWebApp)
-  const themeParams = stub.themeParams
-  const MainButton = stub.MainButton
-  const SecondaryButton = stub.SecondaryButton
+export const useTelegramTheme = (telegramWebApp: WebApp): GlobalThemeOverrides => {
+  const themeParams = telegramWebApp.themeParams || stub.themeParams
+  const MainButton = telegramWebApp.MainButton || stub.MainButton
+  const SecondaryButton = telegramWebApp.SecondaryButton || stub.SecondaryButton
 
   return {
     common: {

@@ -34,8 +34,10 @@ const placeholders = {
       <n-gradient-text :size="36" type="primary">
         Calendee
       </n-gradient-text>
+
       <div>Telegram менеджер записи клиентов</div>
-      <n-button type="primary" @click="step = Steps.mainInfo">Начать</n-button>
+
+      <n-button type="primary" round @click="step = Steps.mainInfo">Начать</n-button>
     </div>
 
     <div v-else-if="step === Steps.mainInfo" class="step">
@@ -52,7 +54,7 @@ const placeholders = {
         @change="step = Steps.serviceInfo"
       />
 
-      <n-button type="primary" @close="step = Steps.serviceInfo">Дальше</n-button>
+      <n-button type="primary" round @close="step = Steps.serviceInfo">Дальше</n-button>
     </div>
 
     <div v-else-if="step === Steps.serviceInfo" class="step">
@@ -76,7 +78,7 @@ const placeholders = {
         :placeholder="placeholders.serviceDescription"
       />
 
-      <n-button type="primary" @close="step = Steps.serviceInfo">Дальше</n-button>
+      <n-button type="primary" round @close="step = Steps.serviceInfo">Дальше</n-button>
     </div>
   </div>
 </template>
