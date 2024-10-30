@@ -37,13 +37,13 @@ const onCreateAppointment = (item: IServiceItem) => {
 
 <template>
   <div class="items-list">
-    <n-gradient-text :size="36" type="success">
+    <n-gradient-text :size="36">
       {{ title }}
     </n-gradient-text>
 
     <n-card v-for="item in items" :key="item.id" :title="item.title">
       <div class="mb-2">{{ item.description }}</div>
-      <n-button tertiary type="success" @click="onCreateAppointment(item)">
+      <n-button tertiary @click="onCreateAppointment(item)">
         Записаться
       </n-button>
     </n-card>

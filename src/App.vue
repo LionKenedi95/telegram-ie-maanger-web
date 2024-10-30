@@ -5,7 +5,7 @@ import { lightTheme } from 'naive-ui'
 import type { GlobalTheme } from 'naive-ui'
 import router from './router/'
 import { RoutesNames } from '@/constants/RoutesNames'
-import { userApi } from './api/user'
+// import { userApi } from './api/user'
 
 const theme = ref<GlobalTheme>(lightTheme)
 router.push(RoutesNames.itemsList)
@@ -40,13 +40,13 @@ const createUser = () => {
     return
   }
 
-  userApi.create({
-    telegramID: initData.user.id,
-    language: initData.user.language_code,
-    username: initData.user.username,
-    firstName: initData.user.first_name,
-    lastName: initData.user.last_name,
-  })
+  // userApi.create({
+  //   telegramID: initData.user.id,
+  //   language: initData.user.language_code,
+  //   username: initData.user.username,
+  //   firstName: initData.user.first_name,
+  //   lastName: initData.user.last_name,
+  // })
 }
 
 createUser()
