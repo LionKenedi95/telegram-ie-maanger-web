@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { RoutesNames } from '@/constants/RoutesNames'
 import HomeView from '../views/HomeView.vue'
-import ItemsList from '@/components/ItemsList.vue'
+import BusinessView from '../views/BusinessView.vue'
+import CreateManagerProfile from '@/components/CreateManagerProfile.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,9 +12,14 @@ const router = createRouter({
       name: RoutesNames.home,
       component: HomeView,
       children: [{
-        path: '/items-list',
-        name: RoutesNames.itemsList,
-        component: ItemsList,
+        path: '/business',
+        name: RoutesNames.business,
+        component: BusinessView,
+        children: [{
+          path: 'onboard',
+          name: RoutesNames.createManagerProfile,
+          component: CreateManagerProfile,
+        }]
       },{
         path: '/appointment-form/:serviceId',
         name: RoutesNames.appointment,

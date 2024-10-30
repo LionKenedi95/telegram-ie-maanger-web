@@ -1,94 +1,91 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { RouterView } from 'vue-router'
-import { lightTheme, NButton, NDivider, NCard, NInput } from 'naive-ui'
-import type { GlobalTheme } from 'naive-ui'
+import { NConfigProvider, NSpin, NLayout, NLayoutContent, lightTheme, darkTheme } from 'naive-ui'
 import router from './router/'
 import { RoutesNames } from '@/constants/RoutesNames'
-// import { userApi } from './api/user'
+import { useTelegramTheme } from './compositions/useTelegramTheme'
+import { useBusinessStore } from '@/stores/business';
+import { businessesApi } from './api/businesses'
 
-const theme = ref<GlobalTheme>(lightTheme)
-router.push(RoutesNames.itemsList)
+const businessStore = useBusinessStore()
+
+const isShowLoading = ref(true)
+
+const theme = ref(window.Telegram.WebApp.colorScheme === 'light' ? lightTheme : darkTheme)
+const telegramTheme = useTelegramTheme(window.Telegram.WebApp)
 
 const initData = window.Telegram.WebApp.initDataUnsafe
-// const initData = {
-//     "query_id": "AAEXbVAJAAAAABdtUAlvqn_h",
-//     "user": {
-//         "id": 156265751,
-//         "first_name": "Vadim",
-//         "last_name": "Kenedi",
-//         "username": "lionkenedi",
-//         "language_code": "ru",
-//         "allows_write_to_pm": true
-//     },
-//     "auth_date": "1729439830",
-//     "hash": "0aec2944e6c7234c43a1d87231efae1c4b28449178643a5feaececd112f0a3ce"
-// }
 
 console.log('initData', initData)
 
-// try {
-//   initData = JSON.parse(get(window, 'Telegram.WebApp.initData'))
-//   console.log('initData', initData)
-// } catch (e) {
-//   console.error('cant parse init data', e)
-// }
+const startBusinessFlow = () => {
+  businessesApi.check({
+    telegramID: initData?.user?.id || 1,
+    language: initData?.user?.language_code || 'ru',
+    username: initData?.user?.username || 'test',
+    firstName: initData?.user?.first_name || 'Тестов',
+    lastName: initData?.user?.last_name || 'Тест',
+  })
+    .then((result) => {
+      console.log('bussinessApi.check result', result)
 
-const createUser = () => {
-  if (!initData?.user) {
-    console.error('No user data')
-    return
-  }
-
-  // userApi.create({
-  //   telegramID: initData.user.id,
-  //   language: initData.user.language_code,
-  //   username: initData.user.username,
-  //   firstName: initData.user.first_name,
-  //   lastName: initData.user.last_name,
-  // })
+      if (result) {
+        businessStore.setBussiness(result)
+        router.push({
+          name: RoutesNames.createManagerProfile,
+        })
+      }
+    })
+    .finally(() => {
+      isShowLoading.value = false
+    })
 }
 
-createUser()
+if (initData.start_param?.indexOf('service') === 0) {
+  const serviceID = initData.start_param.split('|')[0]?.split('=')
 
-const value = ref('')
-
+  if (serviceID) {
+    businessesApi.getServices({
+    businessID: 1,
+    serviceIDs: [serviceID],
+  })
+    .then((result) => {
+      console.log('getServices result', result)
+    })
+  } else {
+    startBusinessFlow()
+  }
+} else {
+  startBusinessFlow()
+}
 </script>
 
 <template>
-  <n-button round>base</n-button>
-  <n-button round type="primary">primary</n-button>
-  <n-button round type="info">info</n-button>
-  <n-button round type="success">success</n-button>
-  <n-button round type="warning">warning</n-button> 
-  <n-button round type="error">error</n-button>
-  <hr>
-  <n-button loading round>base</n-button>
-  <n-button loading round type="primary">primary</n-button>
-  <hr>
-  <n-card title="Card">
-    Card Content
-  </n-card>
-  <hr>
-  Oops
-  <n-divider />
-  Oops
-  <n-divider />
-  <n-input v-model:value="value" type="text" placeholder="Basic Input" />
-  <n-input
-    v-model:value="value"
-    type="textarea"
-    placeholder="Basic Textarea"
-  />
-  <n-config-provider :theme="theme">
-    <RouterView />
+  <n-config-provider :theme="theme" :theme-overrides="telegramTheme">
+      <n-layout id="app-layout">
+        <n-layout-content content-style="padding: 24px;">
+          <n-spin :show="isShowLoading">
+            <RouterView />
+          </n-spin>
+        </n-layout-content>
+      </n-layout>
   </n-config-provider>
 </template> 
 
 <style>
 @import './assets/main.css';
 
-div#app {
-  padding: 12px;
+#app {
+  height: 100vh;
+  width: 100vw;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#app-layout {
+  height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
 }
 </style>
