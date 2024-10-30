@@ -17,13 +17,9 @@ enum Steps {
 
 const step = ref(Steps.start)
 
-onMounted(() => {
-  console.log('bussiness.value', bussiness.value)
-  
-  if (bussiness.value?.companyName) {
-    step.value = Steps.serviceInfo
-  }
-})
+if (bussiness.value?.companyName) {
+  step.value = Steps.serviceInfo
+}
 
 const setNextStep = debounce(() => {
   if (step.value === Steps.start) {
