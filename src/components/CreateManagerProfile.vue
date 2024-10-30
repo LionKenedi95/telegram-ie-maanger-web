@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { debounce } from 'lodash';
 import { storeToRefs } from 'pinia'
 import { NGradientText, NCard, NInput, NButton, NFormItem } from 'naive-ui'
@@ -20,6 +20,9 @@ const step = ref(Steps.start)
 if (bussiness.value?.companyName) {
   step.value = Steps.serviceInfo
 }
+if (bussiness.value?.services.length) {
+  step.value = Steps.end
+}
 
 const setNextStep = debounce(() => {
   if (step.value === Steps.start) {
@@ -31,6 +34,10 @@ const setNextStep = debounce(() => {
 
     step.value = Steps.serviceInfo
   } else if (step.value === Steps.serviceInfo) {
+    bussinessStore.createService({
+      title: form.serviceName,
+      description: form.serviceDescription,
+    })
     step.value = Steps.end
   }
 }, 10)

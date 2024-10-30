@@ -1,7 +1,15 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { businessesApi } from '@/api/businesses'
+import { servicesApi } from '@/api/services'
 import type { UpdateBusinessDTO } from '@/interfaces/DTO/Businesses/UpdateBusiness'
+
+interface IService {
+  id: number
+  businessID: number
+  title: string
+  description: string
+}
 
 interface IBussiness {
   id: number
@@ -10,6 +18,12 @@ interface IBussiness {
   firstName: string
   lastName: string
   companyName: string
+  services: IService[]
+}
+
+interface ICreateServiceFields {
+  title?: string
+  description?: string
 }
 
 export const useBusinessStore = defineStore('bussiness', () => {
@@ -26,5 +40,21 @@ export const useBusinessStore = defineStore('bussiness', () => {
       })
   }
 
-  return { bussiness, setBussiness, updateBusiness }
+  const createService = (fields: ICreateServiceFields) => {
+    servicesApi.create({
+      businessID: bussiness.value?.id,
+      title: fields.title || '',
+      description: fields.description || '',
+    })
+      .then(() => {
+
+      })
+  }
+
+  return {
+    bussiness,
+    setBussiness,
+    updateBusiness,
+    createService,
+  }
 })
