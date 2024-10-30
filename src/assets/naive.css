@@ -1,3 +1,9 @@
 .n-card > .n-card__footer {
   color: var(--tg-theme-hint-color);
 }
+
+.n-card > .n-card__action {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}

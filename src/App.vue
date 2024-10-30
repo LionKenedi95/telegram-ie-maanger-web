@@ -73,7 +73,11 @@ if (initData.start_param?.indexOf('service') === 0) {
       <n-layout id="app-layout">
         <n-layout-content content-style="padding: 24px;">
           <n-spin :show="isShowLoading">
-            <RouterView />
+            <router-view v-slot="{ Component }">
+              <transition name="fade">
+                <component :is="Component" />
+              </transition>
+            </router-view>
           </n-spin>
         </n-layout-content>
       </n-layout>
@@ -86,13 +90,23 @@ if (initData.start_param?.indexOf('service') === 0) {
 #app {
   height: 100vh;
   width: 100vw;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 #app-layout {
   height: 100vh;
   width: 100vw;
   overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.1s ease-out;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
