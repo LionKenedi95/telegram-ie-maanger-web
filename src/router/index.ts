@@ -19,6 +19,22 @@ const router = createRouter({
           path: 'onboard',
           name: RoutesNames.createManagerProfile,
           component: CreateManagerProfile,
+        }, {
+          path: 'service/:id',
+          component: () => import('@/views/ServiceSettings.vue'),
+          children: [{
+            path: '/',
+            name: RoutesNames.serviceSettings,
+            component: () => import('@/components/ServiceSettingsForm.vue'),
+          }, {
+            path: '/timeslots',
+            name: RoutesNames.timeSlotsSettings,
+            component: () => import('@/components/TimeSlotsSettingsForm.vue'),
+          }]
+        }, {
+          path: 'service/:id',
+          name: RoutesNames.serviceSettings,
+          component: () => ''
         }]
       },{
         path: '/appointment-form/:serviceId',
