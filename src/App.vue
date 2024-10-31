@@ -97,7 +97,7 @@ if (initData.start_param?.indexOf('service') === 0) {
           router.push({
             name: RoutesNames.magazineOneService,
             params: {
-              'service-id': serviceID
+              'serviceId': serviceID
             }
           })
           isShowLoading.value = false
@@ -133,7 +133,7 @@ if (initData.start_param?.indexOf('service') === 0) {
           router.push({
             name: RoutesNames.magazineAllServices,
             params: {
-              'business-id': businessID
+              'businessId': businessID
             }
           })
           isShowLoading.value = false

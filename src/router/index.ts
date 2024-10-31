@@ -44,11 +44,11 @@ const router = createRouter({
         name: RoutesNames.magazine,
         component: MagazineView,
         children: [{
-          path: '/service/:service-id',
+          path: '/service/:serviceId',
           name: RoutesNames.magazineOneService,
           component: AppointmentForm,
         }, {
-          path: '/services/:business-id',
+          path: '/services/:businessId',
           name: RoutesNames.magazineAllServices,
           component: ItemsList,
         }]
