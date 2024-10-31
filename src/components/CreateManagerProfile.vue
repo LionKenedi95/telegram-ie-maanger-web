@@ -78,7 +78,7 @@ const goToEditServiceSlots = () => {
 
 const onCopyLink = () => {
   try {
-    const link = `https://t.me/ChnnlsManagerBot?startapp=service_${firstServiceOfBusiness.id}`
+    const link = `https://t.me/ChnnlsManagerBot/Calendee?startapp=service_${firstServiceOfBusiness.id}`
     navigator.clipboard.writeText(link)
     window.Telegram.WebApp.showConfirm('Ссылка скопирована')
     botApi.firstServiceLink({

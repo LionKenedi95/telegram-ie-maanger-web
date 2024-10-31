@@ -9,7 +9,6 @@ import { useBusinessStore } from '@/stores/business';
 import { useMagazineStore } from '@/stores/magazine';
 import { businessesApi } from './api/businesses'
 import { servicesApi } from './api/services'
-import { botApi } from '@/api/bot';
 
 const businessStore = useBusinessStore()
 const magazineStore = useMagazineStore()
