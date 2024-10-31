@@ -80,6 +80,7 @@ if (initData.start_param?.indexOf('service') === 0) {
       serviceIDs: [serviceID],
     })
       .then((result) => {
+        console.log('getServices', result, Array.isArray(result))
         if (Array.isArray(result)) {
           magazineStore.setServices(result)
           router.push({
@@ -114,6 +115,7 @@ if (initData.start_param?.indexOf('service') === 0) {
       businessID,
     })
       .then((result) => {
+        console.log('getServices', result, Array.isArray(result))
         if (Array.isArray(result)) {
           magazineStore.setServices(result)
           router.push({
