@@ -22,10 +22,6 @@ const telegramTheme = useTelegramTheme(window.Telegram.WebApp)
 try {
   window.Telegram.WebApp.disableVerticalSwipes()
   window.Telegram.WebApp.expand()
-  botApi.firstServiceLink({
-    chatId: window.Telegram.WebApp.initDataUnsafe.user?.id,
-    link: 'Тест',
-  })
 } catch (e) {
   console.error('Cant expand app', e)
 }
