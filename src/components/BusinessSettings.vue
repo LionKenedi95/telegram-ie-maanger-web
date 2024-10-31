@@ -54,13 +54,13 @@ const onApplyChange = () => {
 
     <n-card title="Редактировать услуги">
       <n-space justify="end">
-        <n-button secondary type="info">
+        <n-button secondary type="primary">
           Услуга 1
         </n-button>
-        <n-button secondary type="info">
+        <n-button secondary type="primary">
           Услуга 2
         </n-button>
-        <n-button secondary type="info">
+        <n-button secondary type="primary">
           Все услуги
         </n-button>
       </n-space>
@@ -68,10 +68,10 @@ const onApplyChange = () => {
 
     <n-card title="Добавить новую услугу">
       <n-space justify="end">
-        <n-button secondary type="info">
+        <n-button secondary type="primary">
           По шаблону
         </n-button>
-        <n-button secondary type="info">
+        <n-button secondary type="primary">
           Свой вариант
         </n-button>
       </n-space>
