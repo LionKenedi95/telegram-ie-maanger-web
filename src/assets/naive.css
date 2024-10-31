@@ -7,3 +7,8 @@
   align-items: center;
   justify-content: end;
 }
+
+.n-divider:not(.n-divider--vertical) {
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
