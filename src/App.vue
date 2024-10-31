@@ -106,7 +106,8 @@ if (initData.start_param?.indexOf('service') === 0) {
           startBusinessFlow()
         }
       })
-      .catch(() => {
+      .catch((e) => {
+        console.error('getServices catch', e)
         startBusinessFlow()
       })
   } else {
@@ -142,6 +143,7 @@ if (initData.start_param?.indexOf('service') === 0) {
         }
       })
       .catch(() => {
+        console.error('getServices catch', e)
         startBusinessFlow()
       })
   } else {
