@@ -25,8 +25,8 @@ export const useBusinessStore = defineStore('bussiness', () => {
       })
   }
 
-  const createService = (fields: ICreateServiceFields) => {
-    servicesApi.create({
+  const createService = async (fields: ICreateServiceFields) => {
+    return servicesApi.create({
       businessID: bussiness.value?.id,
       title: fields.title || '',
       description: fields.description || '',
