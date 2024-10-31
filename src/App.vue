@@ -29,7 +29,17 @@ const initData = window.Telegram.WebApp.initDataUnsafe
 
 console.log('initData', initData)
 
+if (!initData?.user?.allows_write_to_pm) {
+  window.Telegram.WebApp.requestWriteAccess()
+
+  Telegram.WebApp.onEvent('writeAccessRequested', (result) => {
+    console.log('onEvent writeAccessRequested', result)
+  })
+}
+
 const startBusinessFlow = () => {
+  console.trace('startBusinessFlow')
+
   businessesApi.check({
     telegramID: initData?.user?.id || 1,
     language: initData?.user?.language_code || 'ru',
