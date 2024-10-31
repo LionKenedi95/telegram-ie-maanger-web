@@ -6,6 +6,11 @@ export enum RoutesNames {
   timeSlotsSettings = 'timeSlotsSettings',
 
   home = 'home',
+
+  magazine = 'magazine',
+  magazineOneService = 'magazineOneService',
+  magazineAllServices = 'magazineAllServices',
+
   itemsList = 'items-list',
   appointment = 'appointment'
 }

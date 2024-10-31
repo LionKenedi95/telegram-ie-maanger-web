@@ -76,6 +76,10 @@ const onCopyLink = () => {
   } catch (e) {
     console.error('Cant copy or show popup', e)
   }
+
+  router.push({
+    name: RoutesNames.businessSettings,
+  })
 }
 
 </script>

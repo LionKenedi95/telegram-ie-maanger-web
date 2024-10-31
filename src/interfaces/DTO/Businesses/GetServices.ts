@@ -1,4 +1,4 @@
 export interface GetServicesDTO {
-  businessID: number
-  serviceIDs: number[]
+  businessID?: number
+  serviceIDs?: number[]
 }

@@ -1,8 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { RoutesNames } from '@/constants/RoutesNames'
-import HomeView from '../views/HomeView.vue'
-import BusinessView from '../views/BusinessView.vue'
+import HomeView from '@/views/HomeView.vue'
+import BusinessView from '@/views/BusinessView.vue'
+import MagazineView from '@/views/MagazineView.vue'
 import CreateManagerProfile from '@/components/CreateManagerProfile.vue'
+import ItemsList from '@/components/ItemsList.vue'
+import AppointmentForm from '@/components/AppointmentForm.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -36,7 +39,20 @@ const router = createRouter({
             component: () => import('@/components/TimeSlotsSettingsForm.vue'),
           }]
         }]
-      }]
+      }, {
+        path: '/magazine',
+        name: RoutesNames.magazine,
+        component: MagazineView,
+        children: [{
+          path: '/service/:service-id',
+          name: RoutesNames.magazineOneService,
+          component: AppointmentForm,
+        }, {
+          path: '/services/:business-id',
+          name: RoutesNames.magazineAllServices,
+          component: ItemsList,
+        }]
+      }],
     },
   ]
 })

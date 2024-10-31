@@ -7,6 +7,7 @@ import { RoutesNames } from '@/constants/RoutesNames'
 import { useTelegramTheme } from './compositions/useTelegramTheme'
 import { useBusinessStore } from '@/stores/business';
 import { businessesApi } from './api/businesses'
+import { servicesApi } from './api/services'
 
 const businessStore = useBusinessStore()
 
@@ -60,17 +61,50 @@ const startBusinessFlow = () => {
     })
 }
 
+console.log('initData.start_param', initData?.start_param)
+
 if (initData.start_param?.indexOf('service') === 0) {
-  const serviceID = initData.start_param.split('|')[0]?.split('=')
+  let serviceID
+
+  try {
+    serviceID = initData.start_param.split('|')[0]?.split('=')[1]
+  } catch (e) {
+    console.error('Cant parse serviceID', e)
+  }
 
   if (serviceID) {
-    businessesApi.getServices({
-    businessID: 1,
-    serviceIDs: [serviceID],
-  })
-    .then((result) => {
-      console.log('getServices result', result)
+    servicesApi.getServices({
+      businessID: null,
+      serviceIDs: [serviceID],
     })
+      .then((result) => {
+        console.log('getServices result', result)
+      })
+      .catch(() => {
+        startBusinessFlow()
+      })
+  } else {
+    startBusinessFlow()
+  }
+} else if (initData.start_param?.indexOf('magazine') === 0) {
+  let businessID
+
+  try {
+    businessID = initData.start_param.split('|')[0]?.split('=')[1]
+  } catch (e) {
+    console.error('Cant parse businessID', e)
+  }
+
+  if (businessID) {
+    servicesApi.getServices({
+      businessID,
+    })
+      .then((result) => {
+        console.log('getServices result', result)
+      })
+      .catch(() => {
+        startBusinessFlow()
+      })
   } else {
     startBusinessFlow()
   }
