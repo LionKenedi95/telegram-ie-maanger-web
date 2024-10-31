@@ -29,7 +29,7 @@ const initData = window.Telegram.WebApp.initDataUnsafe
 
 console.log('initData', initData)
 
-if (!initData?.user?.allows_write_to_pm) {
+if (!window.isDev && !initData?.user?.allows_write_to_pm) {
   window.Telegram.WebApp.requestWriteAccess()
 
   Telegram.WebApp.onEvent('writeAccessRequested', (result) => {
@@ -73,13 +73,18 @@ const startBusinessFlow = () => {
     })
 }
 
-console.log('initData.start_param', initData?.start_param)
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
 
-if (initData.start_param?.indexOf('service') === 0) {
+const launchParam = window.isDev ? urlParams.get('startapp') || '' : initData?.start_param || ''
+console.log('initData.start_param', initData?.start_param)
+console.log('launchParam', launchParam)
+
+if (launchParam.indexOf('service') === 0) {
   let serviceID
 
   try {
-    serviceID = initData.start_param.split('|')[0]?.split('=')[1]
+    serviceID = launchParam.split('|')[0]?.split('=')[1]
   } catch (e) {
     console.error('Cant parse serviceID', e)
   }
@@ -91,7 +96,6 @@ if (initData.start_param?.indexOf('service') === 0) {
     })
       .then((result) => {
         console.log('getServices', result, Array.isArray(result))
-        window.Telegram.WebApp.showConfirm(`getServices ${Array.isArray(result)}`)
 
         if (Array.isArray(result)) {
           magazineStore.setServices(result)
@@ -109,17 +113,16 @@ if (initData.start_param?.indexOf('service') === 0) {
       })
       .catch((e) => {
         console.error('getServices catch', e)
-        window.Telegram.WebApp.showConfirm(`getServices catch ${e}`)
         startBusinessFlow()
       })
   } else {
     startBusinessFlow()
   }
-} else if (initData.start_param?.indexOf('magazine') === 0) {
+} else if (launchParam.indexOf('magazine') === 0) {
   let businessID
 
   try {
-    businessID = initData.start_param.split('|')[0]?.split('=')[1]
+    businessID = launchParam.split('|')[0]?.split('=')[1]
   } catch (e) {
     console.error('Cant parse businessID', e)
   }
