@@ -81,6 +81,7 @@ if (initData.start_param?.indexOf('service') === 0) {
     })
       .then((result) => {
         console.log('getServices', result, Array.isArray(result))
+
         if (Array.isArray(result)) {
           magazineStore.setServices(result)
           router.push({
@@ -91,9 +92,9 @@ if (initData.start_param?.indexOf('service') === 0) {
           })
           isShowLoading.value = false
           return
+        } else {
+          startBusinessFlow()
         }
-
-        startBusinessFlow()
       })
       .catch(() => {
         startBusinessFlow()
@@ -126,9 +127,9 @@ if (initData.start_param?.indexOf('service') === 0) {
           })
           isShowLoading.value = false
           return
+        } else {
+          startBusinessFlow()
         }
-
-        startBusinessFlow()
       })
       .catch(() => {
         startBusinessFlow()
