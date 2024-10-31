@@ -63,7 +63,7 @@ const onGoToCreateService = () => {
 
     <n-card title="Редактировать услуги">
       <n-space justify="end">
-        <n-button v-for="service in services" :key="service.id" secondary type="primary" @click="onGoToService(service)">
+        <n-button v-for="service in services" :key="service.id" type="primary" @click="onGoToService(service)">
           {{ service.title.slice(0, 30) }}
         </n-button>
         <n-button secondary round type="info" @click="onGoToCreateService">
