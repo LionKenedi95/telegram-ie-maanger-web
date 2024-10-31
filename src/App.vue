@@ -6,10 +6,12 @@ import router from './router/'
 import { RoutesNames } from '@/constants/RoutesNames'
 import { useTelegramTheme } from './compositions/useTelegramTheme'
 import { useBusinessStore } from '@/stores/business';
+import { useMagazineStore } from '@/stores/magazine';
 import { businessesApi } from './api/businesses'
 import { servicesApi } from './api/services'
 
 const businessStore = useBusinessStore()
+const magazineStore = useMagazineStore()
 
 const isShowLoading = ref(true)
 
@@ -78,7 +80,19 @@ if (initData.start_param?.indexOf('service') === 0) {
       serviceIDs: [serviceID],
     })
       .then((result) => {
-        console.log('getServices result', result)
+        if (Array.isArray(result)) {
+          magazineStore.setServices(result)
+          router.push({
+            name: RoutesNames.magazineOneService,
+            params: {
+              'service-id': serviceID
+            }
+          })
+          isShowLoading.value = false
+          return
+        }
+
+        startBusinessFlow()
       })
       .catch(() => {
         startBusinessFlow()
@@ -100,7 +114,19 @@ if (initData.start_param?.indexOf('service') === 0) {
       businessID,
     })
       .then((result) => {
-        console.log('getServices result', result)
+        if (Array.isArray(result)) {
+          magazineStore.setServices(result)
+          router.push({
+            name: RoutesNames.magazineAllServices,
+            params: {
+              'business-id': businessID
+            }
+          })
+          isShowLoading.value = false
+          return
+        }
+
+        startBusinessFlow()
       })
       .catch(() => {
         startBusinessFlow()
