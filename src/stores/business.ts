@@ -4,6 +4,7 @@ import { businessesApi } from '@/api/businesses'
 import { servicesApi } from '@/api/services'
 import type { UpdateBusinessDTO } from '@/interfaces/DTO/Businesses/UpdateBusiness'
 import type { IBusiness } from '@/interfaces/DTO/Businesses/Business'
+import type { IService } from '@/interfaces/DTO/Services/Service'
 
 interface ICreateServiceFields {
   title?: string
@@ -30,8 +31,16 @@ export const useBusinessStore = defineStore('bussiness', () => {
       title: fields.title || '',
       description: fields.description || '',
     })
-      .then(() => {
+      .then((result: IService) => {
+        if (result?.id) {
+          if (Array.isArray(bussiness.value?.services)) {
+            bussiness.value.services.push(result)
+          } else {
+            bussiness.value.services = [result]
+          }
+        }
 
+        return result
       })
   }
 

@@ -6,6 +6,8 @@ import { NGradientText, NCard, NInput, NButton, NFormItem } from 'naive-ui'
 import { useBusinessStore } from '@/stores/business';
 import router from '@/router';
 import { RoutesNames } from '@/constants/RoutesNames';
+import { botApi } from '@/api/bot';
+import type { IService } from '@/interfaces/DTO/Services/Service';
 
 const bussinessStore = useBusinessStore()
 const { bussiness } = storeToRefs(bussinessStore)
@@ -19,12 +21,14 @@ enum Steps {
 }
 
 const step = ref(Steps.start)
+let firstServiceOfBusiness: IService
 
 if (bussiness.value?.companyName) {
   step.value = Steps.serviceInfo
 }
 if (bussiness.value?.services.length) {
   step.value = Steps.end
+  firstServiceOfBusiness = bussiness.value.services[0]
 }
 
 const setNextStep = debounce(() => {
@@ -41,6 +45,9 @@ const setNextStep = debounce(() => {
       title: form.serviceName,
       description: form.serviceDescription,
     })
+      .then(service => {
+        firstServiceOfBusiness = service
+      })
     step.value = Steps.end
   } else if (step.value === Steps.end) {
     step.value = Steps.howTo
@@ -71,8 +78,14 @@ const goToEditServiceSlots = () => {
 
 const onCopyLink = () => {
   try {
-    navigator.clipboard.writeText('https://t.me/ChnnlsManagerBot?startapp=service=1')
+    const link = `https://t.me/ChnnlsManagerBot?startapp=service=${firstServiceOfBusiness.id}`
+    navigator.clipboard.writeText(link)
     window.Telegram.WebApp.showConfirm('Ссылка скопирована')
+    botApi.firstServiceLink({
+      chatId: window.Telegram.WebApp.initDataUnsafe.chat?.id,
+      link,
+    })
+
   } catch (e) {
     console.error('Cant copy or show popup', e)
   }
