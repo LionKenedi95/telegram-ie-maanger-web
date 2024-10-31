@@ -36,7 +36,7 @@ const onGoToCreateService = () => {
 
 <template>
   <div class="business-settings">
-    <n-gradient-text :size="36" type="primary">
+    <n-gradient-text :size="12" type="primary">
       Calendee
     </n-gradient-text>
 
@@ -52,7 +52,9 @@ const onGoToCreateService = () => {
         />
       </n-form-item>
       <template v-else>
-        <div>{{ business?.companyName }}</div>
+        <n-gradient-text :size="24" type="primary">
+          {{ business?.companyName }}
+        </n-gradient-text>
         <n-button quaternary circle @click="onEdit(Fields.companyName)">
           <template #icon>
             <n-icon><Edit16Filled /></n-icon>
@@ -76,7 +78,7 @@ const onGoToCreateService = () => {
       Последнии события
     </n-gradient-text>
 
-    <n-card title="Добавить новую услугу">
+    <n-card title="События">
       <n-space vertical>
         <n-space align="center">
           <div>Иванов Иван</div>
@@ -89,6 +91,9 @@ const onGoToCreateService = () => {
         <n-space align="center">
           <div>Кенеди Лион</div>
           <div>Завтра. 16:00</div>
+          <n-tag :bordered="false" type="info">
+            Комментарий
+          </n-tag>
         </n-space>
         <n-divider />
         <n-space align="center">
