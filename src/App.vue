@@ -86,7 +86,7 @@ if (launchParam.indexOf('service') === 0) {
   let serviceID
 
   try {
-    serviceID = launchParam.split('|')[0]?.split(':')[1]
+    serviceID = launchParam.split('__')[0]?.split('_')[1]
   } catch (e) {
     console.error('Cant parse serviceID', e)
   }
@@ -126,7 +126,7 @@ if (launchParam.indexOf('service') === 0) {
   let businessID
 
   try {
-    businessID = launchParam.split('|')[0]?.split(':')[1]
+    businessID = launchParam.split('__')[0]?.split('_')[1]
   } catch (e) {
     console.error('Cant parse businessID', e)
   }
