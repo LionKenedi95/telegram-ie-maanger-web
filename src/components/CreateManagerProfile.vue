@@ -26,7 +26,7 @@ let firstServiceOfBusiness: IService
 if (bussiness.value?.companyName) {
   step.value = Steps.serviceInfo
 }
-if (bussiness.value?.services.length) {
+if (bussiness.value?.services?.length) {
   step.value = Steps.end
   firstServiceOfBusiness = bussiness.value.services[0]
 }
