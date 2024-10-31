@@ -1,35 +1,25 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { NButton, NCard, NGradientText } from 'naive-ui'
 import router from '@/router/'
 import { RoutesNames } from '@/constants/RoutesNames'
-import type { IServiceItem } from '@/interfaces/IServiceItem'
-import { useServiceAppointment } from '@/stores/serviceAppointment'
+import { useMagazineStore } from '@/stores/magazine'
+import type { IService } from '@/interfaces/DTO/Services/Service'
 
-const serviceAppointment = useServiceAppointment()
+const magazineStore = useMagazineStore()
 
 const title = ref('Услуги')
 
-const items = ref<IServiceItem[]>([
-  {
-    id: 1,
-    title: 'Услуга 1',
-    description: 'Описание услуги. Не очень большое, можно ограничить в рамках разумного до 256 символов примерно. Думаю столько достаточно.'
-  },
-  {
-    id: 2,
-    title: 'Услуга 2',
-    description: 'Описание услуги. Не очень большое, можно ограничить в рамках разумного до 256 символов примерно. Думаю столько достаточно.'
-  },
-  {
-    id: 3,
-    title: 'Услуга 3',
-    description: 'Описание услуги. Не очень большое, можно ограничить в рамках разумного до 256 символов примерно. Думаю столько достаточно.'
-  }
-])
+const items = computed<IService>(() => {
+  return magazineStore.services.map((service) => {
+    return {
+      ...service
+    }
+  })
+})
 
-const onCreateAppointment = (item: IServiceItem) => {
-  serviceAppointment.selectService(item)
+const onCreateAppointment = (item: IService) => {
+  magazineStore.selectService(item)
   router.push({ name: RoutesNames.appointment, params: { serviceId: item.id }})
 }
 
@@ -37,13 +27,13 @@ const onCreateAppointment = (item: IServiceItem) => {
 
 <template>
   <div class="items-list">
-    <n-gradient-text :size="36">
+    <n-gradient-text :size="36" type="primary">
       {{ title }}
     </n-gradient-text>
 
     <n-card v-for="item in items" :key="item.id" :title="item.title">
       <div class="mb-2">{{ item.description }}</div>
-      <n-button tertiary @click="onCreateAppointment(item)">
+      <n-button type="primary" round @click="onCreateAppointment(item)">
         Записаться
       </n-button>
     </n-card>

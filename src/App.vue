@@ -54,13 +54,14 @@ const startBusinessFlow = () => {
 
       businessStore.setBussiness(result)
 
-      if (result.companyName && result.services.length) {
-          router.push({
-            name: RoutesNames.businessSettings,
-            params: {
-              id: result.id,
-            }
-          })
+      if (result.companyName && result.services?.length) {
+        router.push({
+          name: RoutesNames.businessSettings,
+          params: {
+            id: result.id,
+          }
+        })
+        
         return
       }
 
@@ -99,6 +100,8 @@ if (launchParam.indexOf('service') === 0) {
 
         if (Array.isArray(result)) {
           magazineStore.setServices(result)
+          magazineStore.selectService(result[0])
+
           router.push({
             name: RoutesNames.magazineOneService,
             params: {
