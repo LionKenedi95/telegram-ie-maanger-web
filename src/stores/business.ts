@@ -11,15 +11,15 @@ interface ICreateServiceFields {
   description?: string
 }
 
-export const useBusinessStore = defineStore('bussiness', () => {
-  const bussiness = ref<IBusiness | null>(null)
+export const useBusinessStore = defineStore('business', () => {
+  const business = ref<IBusiness | null>(null)
 
   const setBussiness = (bussinessData: IBusiness) => {
-    bussiness.value = bussinessData
+    business.value = bussinessData
   }
   
   const updateBusiness = (fields: UpdateBusinessDTO) => {
-    businessesApi.update(bussiness.value?.id, fields)
+    businessesApi.update(business.value?.id, fields)
       .then((result) => {
         console.log('updateBusiness result', result)
       })
@@ -27,16 +27,16 @@ export const useBusinessStore = defineStore('bussiness', () => {
 
   const createService = async (fields: ICreateServiceFields) => {
     return servicesApi.create({
-      businessID: bussiness.value?.id,
+      businessID: business.value?.id,
       title: fields.title || '',
       description: fields.description || '',
     })
       .then((result: IService) => {
         if (result?.id) {
-          if (Array.isArray(bussiness.value?.services)) {
-            bussiness.value.services.push(result)
+          if (Array.isArray(business.value?.services)) {
+            business.value.services.push(result)
           } else {
-            bussiness.value.services = [result]
+            business.value.services = [result]
           }
         }
 
@@ -45,7 +45,7 @@ export const useBusinessStore = defineStore('bussiness', () => {
   }
 
   return {
-    bussiness,
+    business,
     setBussiness,
     updateBusiness,
     createService,

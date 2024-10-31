@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { storeToRefs } from 'pinia'
 import { NGradientText, NButton, NIcon, NFormItem, NInput, NCard, NSpace, NTag, NDivider } from 'naive-ui';
 import { Edit16Filled } from '@vicons/fluent'
 import { useBusinessStore } from '@/stores/business';
 
-const bussinessStore = useBusinessStore()
-const { bussiness } = storeToRefs(bussinessStore)
+const businessStore = useBusinessStore()
+const { business } = storeToRefs(businessStore)
+const services = computed(() => business.value?.services || [])
 
 enum Fields {
   companyName = 'companyName'
@@ -16,12 +17,20 @@ const isFormEdited = ref<null | Fields>(null)
 const currentEditingValue = ref('')
 
 const onEdit = (field: Fields) => {
-  currentEditingValue.value = bussiness.value[field]
+  currentEditingValue.value = business.value[field]
   isFormEdited.value = field
 }
 
 const onApplyChange = () => {
   isFormEdited.value = null
+}
+
+const onGoToService = (service) => {
+  console.log('onGoToService', service)
+}
+
+const onGoToCreateService = () => {
+  console.log('onGoToCreateService')
 }
 </script>
 
@@ -43,7 +52,7 @@ const onApplyChange = () => {
         />
       </n-form-item>
       <template v-else>
-        <div>{{ bussiness?.companyName }}</div>
+        <div>{{ business?.companyName }}</div>
         <n-button quaternary circle @click="onEdit(Fields.companyName)">
           <template #icon>
             <n-icon><Edit16Filled /></n-icon>
@@ -54,25 +63,11 @@ const onApplyChange = () => {
 
     <n-card title="Редактировать услуги">
       <n-space justify="end">
-        <n-button secondary type="primary">
-          Услуга 1
+        <n-button v-for="service in services" :key="service.id" secondary type="primary" @click="onGoToService(service)">
+          {{ service.title.slice(0, 30) }}
         </n-button>
-        <n-button secondary type="primary">
-          Услуга 2
-        </n-button>
-        <n-button secondary type="primary">
-          Все услуги
-        </n-button>
-      </n-space>
-    </n-card>
-
-    <n-card title="Добавить новую услугу">
-      <n-space justify="end">
-        <n-button secondary type="primary">
-          По шаблону
-        </n-button>
-        <n-button secondary type="primary">
-          Свой вариант
+        <n-button secondary round type="info" @click="onGoToCreateService">
+          Добавить услугу +
         </n-button>
       </n-space>
     </n-card>
@@ -99,6 +94,11 @@ const onApplyChange = () => {
         <n-space align="center">
           <div>Виктория</div>
           <div>15 декабря. 10:00</div>
+        </n-space>
+        <n-divider />
+        <n-space align="center">
+          <div>Кенеди Лион</div>
+          <div>Завтра. 16:00</div>
         </n-space>
       </n-space>
     </n-card>

@@ -10,7 +10,7 @@ import { botApi } from '@/api/bot';
 import type { IService } from '@/interfaces/DTO/Services/Service';
 
 const bussinessStore = useBusinessStore()
-const { bussiness } = storeToRefs(bussinessStore)
+const { business } = storeToRefs(bussinessStore)
 
 enum Steps {
   start,
@@ -23,12 +23,12 @@ enum Steps {
 const step = ref(Steps.start)
 let firstServiceOfBusiness: IService
 
-if (bussiness.value?.companyName) {
+if (business.value?.companyName) {
   step.value = Steps.serviceInfo
 }
-if (bussiness.value?.services?.length) {
+if (business.value?.services?.length) {
   step.value = Steps.end
-  firstServiceOfBusiness = bussiness.value.services[0]
+  firstServiceOfBusiness = business.value.services[0]
 }
 
 const setNextStep = debounce(() => {
