@@ -35,6 +35,11 @@ if (!window.isDev && !initData?.user?.allows_write_to_pm) {
   Telegram.WebApp.onEvent('writeAccessRequested', (result) => {
     console.log('onEvent writeAccessRequested', result)
   })
+
+  botApi.firstServiceLink({
+    chatId: window.Telegram.WebApp.initDataUnsafe.user?.id,
+    link: 'Тест',
+  })
 }
 
 const startBusinessFlow = () => {
@@ -61,7 +66,7 @@ const startBusinessFlow = () => {
             id: result.id,
           }
         })
-        
+
         return
       }
 

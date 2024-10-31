@@ -82,7 +82,7 @@ const onCopyLink = () => {
     navigator.clipboard.writeText(link)
     window.Telegram.WebApp.showConfirm('Ссылка скопирована')
     botApi.firstServiceLink({
-      chatId: window.Telegram.WebApp.initDataUnsafe.chat?.id,
+      chatId: window.Telegram.WebApp.initDataUnsafe.user?.id,
       link,
     })
 
