@@ -10,9 +10,6 @@ import { useMagazineStore } from '@/stores/magazine';
 import { businessesApi } from './api/businesses'
 import { servicesApi } from './api/services'
 
-const businessStore = useBusinessStore()
-const magazineStore = useMagazineStore()
-
 const isShowLoading = ref(true)
 
 const theme = ref(window.Telegram.WebApp.colorScheme === 'light' ? lightTheme : darkTheme)
