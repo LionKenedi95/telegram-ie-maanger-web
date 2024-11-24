@@ -17,7 +17,7 @@ try {
 }
 
 const initDataUnsafe = window.Telegram.WebApp.initDataUnsafe
-const initData = window.Telegram.WebApp.initData
+const initData = window.Telegram.WebApp.initData || 'user=%7B%22id%22%3A156265751%2C%22first_name%22%3A%22Vadim%22%2C%22last_name%22%3A%22Kenedi%22%2C%22username%22%3A%22lionkenedi%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%2C%22photo_url%22%3A%22https%3A%5C%2F%5C%2Ft.me%5C%2Fi%5C%2Fuserpic%5C%2F320%5C%2FKX8FZPwZvtzf3D-tph7AFyZRb1WHXqtnpKxv0CV5R6k.svg%22%7D&chat_instance=3181665580015683702&chat_type=sender&auth_date=1732441636&signature=fKShzWyBc184m-ltVhXJCbPP9oiedowFL-BAAP9e-D7Knr8_PC6UWeswywVO1ZKtXL0jVL2Nc6aHzbr8AftRCg&hash=c64b02beebe09c5459c'
 
 console.log('initDataUnsafe', initDataUnsafe)
 console.log('initData', initData)
@@ -50,13 +50,13 @@ tryApi(initData)
       <n-layout id="app-layout">
         <n-layout-content content-style="padding: 24px;">
           <n-spin :show="isShowLoading">
-            <div>
+            <div :style="{ 'line-break': 'anywhere'}">
               {{ initDataUnsafe }}
               <hr>
               {{ initData }}
             </div>
           </n-spin>
-        </n-layout-content>
+        </n-layout-content>   
       </n-layout>
   </n-config-provider>
 </template> 
