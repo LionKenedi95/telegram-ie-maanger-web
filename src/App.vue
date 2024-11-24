@@ -4,7 +4,7 @@ import { NConfigProvider, NSpin, NLayout, NLayoutContent, lightTheme, darkTheme 
 import { useTelegramTheme } from './compositions/useTelegramTheme'
 import { tryApi } from './api/test.api';
 
-const isShowLoading = ref(true)
+const isShowLoading = ref(false)
 
 const theme = ref(window.Telegram.WebApp.colorScheme === 'light' ? lightTheme : darkTheme)
 const telegramTheme = useTelegramTheme(window.Telegram.WebApp)
