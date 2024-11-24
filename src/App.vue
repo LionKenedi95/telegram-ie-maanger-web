@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { NConfigProvider, NSpin, NLayout, NLayoutContent, lightTheme, darkTheme } from 'naive-ui'
 import { useTelegramTheme } from './compositions/useTelegramTheme'
+import { tryApi } from './api/test.api';
 
 const isShowLoading = ref(true)
 
@@ -15,11 +16,13 @@ try {
   console.error('Cant expand app', e)
 }
 
-const initData = window.Telegram.WebApp.initDataUnsafe
+const initDataUnsafe = window.Telegram.WebApp.initDataUnsafe
+const initData = window.Telegram.WebApp.initData
 
+console.log('initDataUnsafe', initDataUnsafe)
 console.log('initData', initData)
 
-if (!window.isDev && !initData?.user?.allows_write_to_pm) {
+if (!window.isDev && !initDataUnsafe?.user?.allows_write_to_pm) {
   window.Telegram.WebApp.requestWriteAccess()
 
   Telegram.WebApp.onEvent('writeAccessRequested', (result) => {
@@ -35,9 +38,11 @@ const startBusinessFlow = () => {
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 
-const launchParam = window.isDev ? urlParams.get('startapp') || '' : initData?.start_param || ''
-console.log('initData.start_param', initData?.start_param)
+const launchParam = window.isDev ? urlParams.get('startapp') || '' : initDataUnsafe?.start_param || ''
+console.log('initData.start_param', initDataUnsafe?.start_param)
 console.log('launchParam', launchParam)
+
+tryApi(initData)
 </script>
 
 <template>
@@ -46,6 +51,8 @@ console.log('launchParam', launchParam)
         <n-layout-content content-style="padding: 24px;">
           <n-spin :show="isShowLoading">
             <div>
+              {{ initDataUnsafe }}
+              <hr>
               {{ initData }}
             </div>
           </n-spin>
