@@ -1,17 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { RouterView } from 'vue-router'
 import { NConfigProvider, NSpin, NLayout, NLayoutContent, lightTheme, darkTheme } from 'naive-ui'
-import router from './router/'
-import { RoutesNames } from '@/constants/RoutesNames'
 import { useTelegramTheme } from './compositions/useTelegramTheme'
-import { useBusinessStore } from '@/stores/business';
-import { useMagazineStore } from '@/stores/magazine';
-import { businessesApi } from './api/businesses'
-import { servicesApi } from './api/services'
-
-const businessStore = useBusinessStore()
-const magazineStore = useMagazineStore()
 
 const isShowLoading = ref(true)
 
@@ -40,38 +30,6 @@ if (!window.isDev && !initData?.user?.allows_write_to_pm) {
 const startBusinessFlow = () => {
   console.trace('startBusinessFlow')
 
-  businessesApi.check({
-    telegramID: initData?.user?.id || 1,
-    language: initData?.user?.language_code || 'ru',
-    username: initData?.user?.username || 'test',
-    firstName: initData?.user?.first_name || 'Тестов',
-    lastName: initData?.user?.last_name || 'Тест',
-  })
-    .then((result) => {
-      if (!result) {
-        return
-      }
-
-      businessStore.setBussiness(result)
-
-      if (result.companyName && result.services?.length) {
-        router.push({
-          name: RoutesNames.businessSettings,
-          params: {
-            id: result.id,
-          }
-        })
-
-        return
-      }
-
-      router.push({
-        name: RoutesNames.createManagerProfile,
-      })
-    })
-    .finally(() => {
-      isShowLoading.value = false
-    })
 }
 
 const queryString = window.location.search;
@@ -80,86 +38,6 @@ const urlParams = new URLSearchParams(queryString);
 const launchParam = window.isDev ? urlParams.get('startapp') || '' : initData?.start_param || ''
 console.log('initData.start_param', initData?.start_param)
 console.log('launchParam', launchParam)
-
-if (launchParam.indexOf('service') === 0) {
-  let serviceID
-
-  try {
-    serviceID = launchParam.split('__')[0]?.split('_')[1]
-  } catch (e) {
-    console.error('Cant parse serviceID', e)
-  }
-
-  if (serviceID) {
-    servicesApi.getServices({
-      businessID: null,
-      serviceIDs: [serviceID],
-    })
-      .then((result) => {
-        console.log('getServices', result, Array.isArray(result))
-
-        if (Array.isArray(result)) {
-          magazineStore.setServices(result)
-          magazineStore.selectService(result[0])
-
-          router.push({
-            name: RoutesNames.magazineOneService,
-            params: {
-              'serviceId': serviceID
-            }
-          })
-          isShowLoading.value = false
-          return
-        } else {
-          startBusinessFlow()
-        }
-      })
-      .catch((e) => {
-        console.error('getServices catch', e)
-        startBusinessFlow()
-      })
-  } else {
-    startBusinessFlow()
-  }
-} else if (launchParam.indexOf('magazine') === 0) {
-  let businessID
-
-  try {
-    businessID = launchParam.split('__')[0]?.split('_')[1]
-  } catch (e) {
-    console.error('Cant parse businessID', e)
-  }
-
-  if (businessID) {
-    servicesApi.getServices({
-      businessID,
-    })
-      .then((result) => {
-        console.log('getServices', result, Array.isArray(result))
-        if (Array.isArray(result)) {
-          magazineStore.setServices(result)
-          router.push({
-            name: RoutesNames.magazineAllServices,
-            params: {
-              'businessId': businessID
-            }
-          })
-          isShowLoading.value = false
-          return
-        } else {
-          startBusinessFlow()
-        }
-      })
-      .catch(() => {
-        console.error('getServices catch', e)
-        startBusinessFlow()
-      })
-  } else {
-    startBusinessFlow()
-  }
-} else {
-  startBusinessFlow()
-}
 </script>
 
 <template>
@@ -167,11 +45,9 @@ if (launchParam.indexOf('service') === 0) {
       <n-layout id="app-layout">
         <n-layout-content content-style="padding: 24px;">
           <n-spin :show="isShowLoading">
-            <router-view v-slot="{ Component }">
-              <transition name="fade">
-                <component :is="Component" />
-              </transition>
-            </router-view>
+            <div>
+              {{ initData }}
+            </div>
           </n-spin>
         </n-layout-content>
       </n-layout>
