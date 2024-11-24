@@ -14,46 +14,10 @@ const router = createRouter({
       path: '/',
       name: RoutesNames.home,
       component: HomeView,
-      // children: [{
-      //   // path: '/business',
-      //   // name: RoutesNames.business,
-      //   // component: BusinessView,
-      //   // children: [{
-      //   //   path: 'onboard',
-      //   //   name: RoutesNames.createManagerProfile,
-      //   //   component: CreateManagerProfile,
-      //   // }, {
-      //   //   path: 'settings',
-      //   //   name: RoutesNames.businessSettings,
-      //   //   component: () => import('@/components/BusinessSettings.vue'),
-      //   // }, {
-      //   //   path: 'service/:id',
-      //   //   component: () => import('@/views/ServiceSettings.vue'),
-      //   //   children: [{
-      //   //     path: '/',
-      //   //     name: RoutesNames.serviceSettings,
-      //   //     component: () => import('@/components/ServiceSettingsForm.vue'),
-      //   //   }, {
-      //   //     path: '/timeslots',
-      //   //     name: RoutesNames.timeSlotsSettings,
-      //   //     component: () => import('@/components/TimeSlotsSettingsForm.vue'),
-      //   //   }]
-      //   }]
-      // }, 
-      // {
-      //   path: '/magazine',
-      //   name: RoutesNames.magazine,
-      //   component: MagazineView,
-      //   children: [{
-      //     path: '/service/:serviceId',
-      //     name: RoutesNames.magazineOneService,
-      //     component: AppointmentForm,
-      //   }, {
-      //     path: '/services/:businessId',
-      //     name: RoutesNames.magazineAllServices,
-      //     component: ItemsList,
-      //   }]
-      // }],
+    }, {
+      path: '/test-ui',
+      name: RoutesNames.testUI,
+      component: () => import('@/views/TestUiView.vue')
     },
   ]
 })

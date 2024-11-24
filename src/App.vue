@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { NConfigProvider, NSpin, NLayout, NLayoutContent, lightTheme, darkTheme } from 'naive-ui'
+import router from './router/'
+import { RoutesNames } from '@/constants/RoutesNames'
 import { useTelegramTheme } from './compositions/useTelegramTheme'
 import { tryApi } from './api/test.api';
 
@@ -30,11 +32,6 @@ if (!window.isDev && !initDataUnsafe?.user?.allows_write_to_pm) {
   })
 }
 
-const startBusinessFlow = () => {
-  console.trace('startBusinessFlow')
-
-}
-
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 
@@ -43,6 +40,12 @@ console.log('initData.start_param', initDataUnsafe?.start_param)
 console.log('launchParam', launchParam)
 
 tryApi(initData)
+
+if (launchParam.indexOf('showuitest') !== -1) {
+  router.push({
+    name: RoutesNames.testUI,
+  })
+}
 </script>
 
 <template>
@@ -55,8 +58,10 @@ tryApi(initData)
               <hr>
               {{ initData }}
             </div>
+
+            <router-view />
           </n-spin>
-        </n-layout-content>   
+        </n-layout-content>
       </n-layout>
   </n-config-provider>
 </template> 
