@@ -4,7 +4,7 @@ import { NConfigProvider, NSpin, NLayout, NLayoutContent, lightTheme, darkTheme 
 import router from './router/'
 import { RoutesNames } from '@/constants/RoutesNames'
 import { useTelegramTheme } from './compositions/useTelegramTheme'
-import { tryApi } from './api/test.api';
+import { tryGetApi } from './api/test.api';
 
 const isShowLoading = ref(false)
 
@@ -39,7 +39,7 @@ const launchParam = window.isDev ? urlParams.get('startapp') || '' : initDataUns
 console.log('initData.start_param', initDataUnsafe?.start_param)
 console.log('launchParam', launchParam)
 
-tryApi(initData)
+tryGetApi(initData)
 
 if (launchParam.indexOf('showuitest') !== -1) {
   router.push({
