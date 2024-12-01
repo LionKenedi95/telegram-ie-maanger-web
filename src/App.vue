@@ -50,6 +50,9 @@ if (launchParam.indexOf('showuitest') !== -1) {
 fetch('https://qpf07h23-3001.euw.devtunnels.ms/api/user', {
   mode: 'cors',
   method: 'PUT',
+  headers: {
+    'Content-Type': 'application/json',
+  },
   body: JSON.stringify({
     "query_id": 'test_queri_id',
     "user": {
