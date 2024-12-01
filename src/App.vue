@@ -46,6 +46,27 @@ if (launchParam.indexOf('showuitest') !== -1) {
     name: RoutesNames.testUI,
   })
 }
+
+fetch('https://qpf07h23-3001.euw.devtunnels.ms/api/user', {
+  mode: 'cors',
+  method: 'PUT',
+  body: JSON.stringify({
+    "query_id": 'test_queri_id',
+    "user": {
+        "id": initData?.user?.id || 1,
+        "first_name": initData?.user?.first_name,
+        "last_name": initData?.user?.last_name,
+        "username": initData?.user?.username,
+        "language_code": initData?.user?.language_code,
+        "is_premium": initData?.user?.is_premium,
+        "allows_write_to_pm": initData?.user?.allows_write_to_pm,
+        "photo_url": initData?.user?.photo_url
+    },
+    "auth_date": Date.now(),
+    "signature": 'signature',
+    "hash": 'hash'
+}),
+})
 </script>
 
 <template>
