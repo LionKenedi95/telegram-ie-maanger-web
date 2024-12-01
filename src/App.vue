@@ -2,13 +2,13 @@
 import { ref } from 'vue'
 import { RouterView } from 'vue-router'
 import { NConfigProvider, NSpin, NLayout, NLayoutContent, lightTheme, darkTheme } from 'naive-ui'
-import router from './router/'
-import { RoutesNames } from '@/constants/RoutesNames'
+// import router from './router/'
+// import { RoutesNames } from '@/constants/RoutesNames'
 import { useTelegramTheme } from './compositions/useTelegramTheme'
-import { useBusinessStore } from '@/stores/business';
-import { useMagazineStore } from '@/stores/magazine';
-import { businessesApi } from './api/businesses'
-import { servicesApi } from './api/services'
+// import { useBusinessStore } from '@/stores/business';
+// import { useMagazineStore } from '@/stores/magazine';
+// import { businessesApi } from './api/businesses'
+// import { servicesApi } from './api/services'
 
 const isShowLoading = ref(true)
 
@@ -34,42 +34,63 @@ if (!window.isDev && !initData?.user?.allows_write_to_pm) {
   })
 }
 
-const startBusinessFlow = () => {
-  console.trace('startBusinessFlow')
+fetch('https://qpf07h23-3001.euw.devtunnels.ms/api/user', {
+  mode: 'cors',
+  method: 'PUT',
+  body: JSON.stringify({
+    "query_id": 'test_queri_id',
+    "user": {
+        "id": initData?.user?.id || 1,
+        "first_name": initData?.user?.first_name,
+        "last_name": initData?.user?.last_name,
+        "username": initData?.user?.username,
+        "language_code": initData?.user?.language_code,
+        "is_premium": initData?.user?.is_premium,
+        "allows_write_to_pm": initData?.user?.allows_write_to_pm,
+        "photo_url": initData?.user?.photo_url
+    },
+    "auth_date": Date.now(),
+    "signature": 'signature',
+    "hash": 'hash'
+}),
+})
 
-  businessesApi.check({
-    telegramID: initData?.user?.id || 1,
-    language: initData?.user?.language_code || 'ru',
-    username: initData?.user?.username || 'test',
-    firstName: initData?.user?.first_name || 'Тестов',
-    lastName: initData?.user?.last_name || 'Тест',
-  })
-    .then((result) => {
-      if (!result) {
-        return
-      }
+// const startBusinessFlow = () => {
+//   console.trace('startBusinessFlow')
 
-      businessStore.setBussiness(result)
+//   businessesApi.check({
+//     telegramID: initData?.user?.id || 1,
+//     language: initData?.user?.language_code || 'ru',
+//     username: initData?.user?.username || 'test',
+//     firstName: initData?.user?.first_name || 'Тестов',
+//     lastName: initData?.user?.last_name || 'Тест',
+//   })
+//     .then((result) => {
+//       if (!result) {
+//         return
+//       }
 
-      if (result.companyName && result.services?.length) {
-        router.push({
-          name: RoutesNames.businessSettings,
-          params: {
-            id: result.id,
-          }
-        })
+//       businessStore.setBussiness(result)
 
-        return
-      }
+//       if (result.companyName && result.services?.length) {
+//         router.push({
+//           name: RoutesNames.businessSettings,
+//           params: {
+//             id: result.id,
+//           }
+//         })
 
-      router.push({
-        name: RoutesNames.createManagerProfile,
-      })
-    })
-    .finally(() => {
-      isShowLoading.value = false
-    })
-}
+//         return
+//       }
+
+//       router.push({
+//         name: RoutesNames.createManagerProfile,
+//       })
+//     })
+//     .finally(() => {
+//       isShowLoading.value = false
+//     })
+// }
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
@@ -78,85 +99,85 @@ const launchParam = window.isDev ? urlParams.get('startapp') || '' : initData?.s
 console.log('initData.start_param', initData?.start_param)
 console.log('launchParam', launchParam)
 
-if (launchParam.indexOf('service') === 0) {
-  let serviceID
+// if (launchParam.indexOf('service') === 0) {
+//   let serviceID
 
-  try {
-    serviceID = launchParam.split('__')[0]?.split('_')[1]
-  } catch (e) {
-    console.error('Cant parse serviceID', e)
-  }
+//   try {
+//     serviceID = launchParam.split('__')[0]?.split('_')[1]
+//   } catch (e) {
+//     console.error('Cant parse serviceID', e)
+//   }
 
-  if (serviceID) {
-    servicesApi.getServices({
-      businessID: null,
-      serviceIDs: [serviceID],
-    })
-      .then((result) => {
-        console.log('getServices', result, Array.isArray(result))
+//   if (serviceID) {
+//     servicesApi.getServices({
+//       businessID: null,
+//       serviceIDs: [serviceID],
+//     })
+//       .then((result) => {
+//         console.log('getServices', result, Array.isArray(result))
 
-        if (Array.isArray(result)) {
-          magazineStore.setServices(result)
-          magazineStore.selectService(result[0])
+//         if (Array.isArray(result)) {
+//           magazineStore.setServices(result)
+//           magazineStore.selectService(result[0])
 
-          router.push({
-            name: RoutesNames.magazineOneService,
-            params: {
-              'serviceId': serviceID
-            }
-          })
-          isShowLoading.value = false
-          return
-        } else {
-          startBusinessFlow()
-        }
-      })
-      .catch((e) => {
-        console.error('getServices catch', e)
-        startBusinessFlow()
-      })
-  } else {
-    startBusinessFlow()
-  }
-} else if (launchParam.indexOf('magazine') === 0) {
-  let businessID
+//           router.push({
+//             name: RoutesNames.magazineOneService,
+//             params: {
+//               'serviceId': serviceID
+//             }
+//           })
+//           isShowLoading.value = false
+//           return
+//         } else {
+//           startBusinessFlow()
+//         }
+//       })
+//       .catch((e) => {
+//         console.error('getServices catch', e)
+//         startBusinessFlow()
+//       })
+//   } else {
+//     startBusinessFlow()
+//   }
+// } else if (launchParam.indexOf('magazine') === 0) {
+//   let businessID
 
-  try {
-    businessID = launchParam.split('__')[0]?.split('_')[1]
-  } catch (e) {
-    console.error('Cant parse businessID', e)
-  }
+//   try {
+//     businessID = launchParam.split('__')[0]?.split('_')[1]
+//   } catch (e) {
+//     console.error('Cant parse businessID', e)
+//   }
 
-  if (businessID) {
-    servicesApi.getServices({
-      businessID,
-    })
-      .then((result) => {
-        console.log('getServices', result, Array.isArray(result))
-        if (Array.isArray(result)) {
-          magazineStore.setServices(result)
-          router.push({
-            name: RoutesNames.magazineAllServices,
-            params: {
-              'businessId': businessID
-            }
-          })
-          isShowLoading.value = false
-          return
-        } else {
-          startBusinessFlow()
-        }
-      })
-      .catch(() => {
-        console.error('getServices catch', e)
-        startBusinessFlow()
-      })
-  } else {
-    startBusinessFlow()
-  }
-} else {
-  startBusinessFlow()
-}
+//   if (businessID) {
+//     servicesApi.getServices({
+//       businessID,
+//     })
+//       .then((result) => {
+//         console.log('getServices', result, Array.isArray(result))
+//         if (Array.isArray(result)) {
+//           magazineStore.setServices(result)
+//           router.push({
+//             name: RoutesNames.magazineAllServices,
+//             params: {
+//               'businessId': businessID
+//             }
+//           })
+//           isShowLoading.value = false
+//           return
+//         } else {
+//           startBusinessFlow()
+//         }
+//       })
+//       .catch(() => {
+//         console.error('getServices catch', e)
+//         startBusinessFlow()
+//       })
+//   } else {
+//     startBusinessFlow()
+//   }
+// } else {
+//   startBusinessFlow()
+// }
 </script>
 
 <template>
