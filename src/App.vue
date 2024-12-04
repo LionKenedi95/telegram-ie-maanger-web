@@ -47,7 +47,7 @@ if (launchParam.indexOf('showuitest') !== -1) {
   })
 }
 
-fetch('https://qpf07h23-3001.euw.devtunnels.ms/api/user', {
+fetch('https://telegrammanagerbot.site/api/user', {
   mode: 'cors',
   method: 'PUT',
   headers: {
